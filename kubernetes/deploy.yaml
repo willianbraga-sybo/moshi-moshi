@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: moshi-moshi
+  name: moshi-moshi
+  namespace: moshi-moshi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moshi-moshi
+  template:
+    metadata:
+      labels:
+        app: moshi-moshi
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 15
+      containers:
+        - image: ghcr.io/willianbraga-sybo/moshi-moshi:latest
+          name: moshi-moshi
+          lifecycle:
+            preStop:
+              sleep:
+                seconds: 10
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /healthcheck
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 20m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthcheck
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 3
+            timeoutSeconds: 1

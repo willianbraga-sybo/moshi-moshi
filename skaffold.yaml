@@ -1,0 +1,14 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: moshi-moshi
+build:
+  artifacts:
+    - image: ghcr.io/willianbraga-sybo/moshi-moshi
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - kubernetes/ns.yaml
+    - kubernetes/deploy.yaml
+    - kubernetes/svc.yaml
