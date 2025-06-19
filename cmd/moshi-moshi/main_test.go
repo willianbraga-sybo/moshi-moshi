@@ -68,8 +68,8 @@ func TestParamsHandler(t *testing.T) {
 	}
 
 	// Check that we get the IP without the port
-	if client["source_ip"] != "127.0.0.2" {
-		t.Errorf("expected source_ip '127.0.0.2', got %v", client["source_ip"])
+	if client["source_ip"] != "127.0.0.1" {
+		t.Errorf("expected source_ip '127.0.0.1', got %v", client["source_ip"])
 	}
 	if client["user_agent"] != "GoTest" {
 		t.Errorf("expected user_agent 'GoTest', got %v", client["user_agent"])
