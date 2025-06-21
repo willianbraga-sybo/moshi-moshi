@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   docker_build:
-    name: "Publish Docker Image to GHCR"
+    name: "Multistage Build with BuildX"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -90,9 +90,17 @@ jobs:
           retention-days: 1
 
   merge:
+    name: "Merge builds and prepare to publish them to GHCR"
     runs-on: ubuntu-latest
     needs:
       - docker_build
+
+    # Requires write permissions to packages, attestations, and id-token for pushing to GHCR.
+    permissions:
+      packages: write
+      attestations: write
+      id-token: write
+
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
