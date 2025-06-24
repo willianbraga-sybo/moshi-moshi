@@ -20,9 +20,9 @@ jobs:
 
     steps:
       - name: Delete untagged container images
-        uses: actions/delete-package-versions@v4
+        uses: actions/delete-package-versions@v5
         with:
-          package-name: ${{ github.repository }}
+          package-name: 'moshi-moshi'
           package-type: 'container'
           token: ${{ secrets.GITHUB_TOKEN }}
-          delete-only-untagged-versions: 'true'
+          delete-only-untagged-versions: true
